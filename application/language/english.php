@@ -19,7 +19,7 @@ $language['change_lang_form_head'] = 'Select Language';
 $language['change_lang_sub'] = 'Change';
 
 $language['welcome_to'] = 'Welcome to';
-$language['welcome_message'] = 'Welcome to our private server, Join us now!';
+$language['welcome_message'] = 'Welcome to Icecrown hosted on Adjutant Online!';
 $language['get_started'] = 'Get Started';
 $language['home'] = 'Home';
 $language['about'] = 'About';
