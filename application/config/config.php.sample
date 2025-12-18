@@ -143,19 +143,8 @@ $config['db_auth_user'] = 'root'; // Database username.
 $config['db_auth_pass'] = 'root'; // Database password.
 $config['db_auth_dbname'] = 'auth'; // Database name for your auth/realmd database.
 
-// --- TLS feature flag (default: false) ---
-$config['db_auth_use_tls'] = false;
-
-// --- TLS paths (optional; only used if db_auth_use_tls = true) ---
-$config['db_auth_ssl_ca']   = '/etc/ssl/mysql/ca.pem'; // required when TLS is enabled
-// Optional mutual TLS (only if your MySQL user requires client certs):
-// $config['db_auth_ssl_cert'] = '/etc/ssl/mysql/client-cert.pem';
-// $config['db_auth_ssl_key']  = '/etc/ssl/mysql/client-key.pem';
-
-// Optional extras
-// $config['db_auth_ssl_cipher'] = 'TLSv1.2';
-// $config['db_auth_ssl_capath'] = '/etc/ssl/certs';
-
+// Database Connection TLS Settings
+$config['db_auth_ssl_ca']   = '/path/to/certCA.pem';
 
 // Realmlist Configuration - Configure the connection details for each realm's character database.
 $config['realmlists'] = array(
