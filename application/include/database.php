@@ -7,6 +7,7 @@
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
+use PDO; // <-- add this to use PDO::MYSQL_ATTR_* constants
 
 class database
 {
@@ -23,12 +24,18 @@ class database
             'port' => get_config('db_auth_port'),
             'driver' => 'pdo_mysql',
             'charset' => 'utf8',
+
+            // >>> TLS options forwarded to PDO <<<
+            'driverOptions' => array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => get_config('db_auth_ssl_ca') ?? null,
+            ]),
         ], new Configuration());
 
         $realmlists = get_config("realmlists");
         if (is_iterable($realmlists) || is_object($realmlists)) {
             foreach ($realmlists as $realm) {
                 if (!empty($realm["realmid"]) && !empty($realm["db_host"]) && !empty($realm["db_port"]) && !empty($realm["db_user"]) && !empty($realm["db_pass"]) && !empty($realm["db_name"])) {
+
                     self::$chars[$realm["realmid"]] = DriverManager::getConnection([
                         'dbname' => $realm["db_name"],
                         'user' => $realm["db_user"],
@@ -37,7 +44,14 @@ class database
                         'port' => $realm["db_port"],
                         'driver' => 'pdo_mysql',
                         'charset' => 'utf8',
+
+                        // >>> TLS options forwarded to PDO for each realm <<<
+                        'driverOptions' => array_filter([
+                                // Re-use the same CA by default; override per-realm if your config provides realm-specific keys
+                            PDO::MYSQL_ATTR_SSL_CA => get_config('db_auth_ssl_ca') ?? null,
+                        ]),
                     ], new Configuration());
+
                 } else {
                     die("Missing char database required field.");
                 }
